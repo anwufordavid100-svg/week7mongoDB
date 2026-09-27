@@ -100,6 +100,9 @@ app.delete('/todos/:id', async (req, res, next) => {
 // Error handler
 
 app.use(errorhandler)
+const PORT = process.env.PORT || 3002;
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, "0.0.0.0", () => console.log(`Server on http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
