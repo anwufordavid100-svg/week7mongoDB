@@ -14,10 +14,6 @@ connectDB(); // Connect to MongoDB
 app.use(logRequest)
 
 
-// let todos = [
-//   { id: 1, task: 'Learn Node.js', completed: false },
-//   { id: 2, task: 'Build CRUD API', completed: false },
-// ];
 
 // GET All
 app.get('/todos', async (req, res) => {
@@ -68,12 +64,7 @@ app.post('/todos', validateTodo, async (req, res, next) => {
   const newTodo = new Todomodel({ task, completed });
   try {
     await newTodo.save();
-    // const { task, completed = false } = req.body;
-    // if (!task || task.length <= 2) {
-    //   return res.status(400).json({ message: 'Please provide the task' })
-    // }; // 400 = bad request
-    // const newTodo = { id: todos.length + 1, ...req.body };
-    // todos.push(newTodo);
+
     res.status(201).json(newTodo);
   } catch (error) {
     next(error)
@@ -99,10 +90,7 @@ app.delete('/todos/:id', async (req, res, next) => {
   try {
     const todo = await Todomodel.findByIdAndDelete(req.params.id);
     if (!todo) return res.status(404).json({ error: 'Todo not found' });
-    // const initialLength = todos.length;
-    // todos = todos.filter((t) => t.id !== id);
-    // if (todos.length === initialLength)
-    //   return res.status(404).json({ error: 'Not found' });
+
     res.status(200).json({ message: 'Todo deleted successfully' });
   } catch (error) {
     next(error);
@@ -113,5 +101,5 @@ app.delete('/todos/:id', async (req, res, next) => {
 
 app.use(errorhandler)
 
-const PORT = 3002;
-app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, "0.0.0.0", () => console.log(`Server on http://localhost:${PORT}`));
